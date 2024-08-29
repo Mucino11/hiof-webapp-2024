@@ -40,10 +40,20 @@ const getStudent = async (
   students: Student[],
   id: FancyID
 ): Promise<StudentRecord | undefined | never> => {
-  //promise is an async function
+  // A Promise in JavaScript is an object that represents the eventual result of an asynchronous operation, either fulfilled with a value or rejected with an error. It allows handling of asynchronous tasks in a more manageable and readable way.
   if (students.every((s) => typeof s === "string"))
     throw new Error("Can not locate user when all are strings");
   return students
     .filter((student) => typeof student !== "string")
     .find((student) => student[id]);
 };
+
+const students: Student[] = [
+  "Lars",
+  { "a-b-c": { name: "Frida", birthYear: 1992 } },
+];
+getStudent(students, "a-b-c").then((data) => console.log(data));
+
+console.log("Hey");
+
+//fetch is a way we use to talk to a server
