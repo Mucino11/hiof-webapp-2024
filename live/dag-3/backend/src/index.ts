@@ -14,6 +14,11 @@ app.get("/", (c) => {
   return c.json({ data: "Hello, world!" });
 });
 
+// my solution
+// app.get("/", (c) => {
+//   return c.json({ data: "backend/data/weather.json"});
+// });
+
 const port = 3999;
 
 console.log(`Server is running on port ${port}`);
