@@ -1,5 +1,8 @@
 function App() {
-  return <h1>Hey</h1>;
+  return ( 
+  <section>
+    <Titile title="Hey" />
+  </section>;)
 }
 
 export default App;

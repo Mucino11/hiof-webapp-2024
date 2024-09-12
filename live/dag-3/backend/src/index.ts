@@ -1,7 +1,7 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-
+import { getWeatherData, updateWeatherData } from "./lib";
 const app = new Hono();
 
 app.use(
@@ -10,14 +10,31 @@ app.use(
   })
 );
 
-app.get("/", (c) => {
-  return c.json({ data: "Hello, world!" });
+app.get("/", async (c) => {
+  const data = await getWeatherData();
+  return c.json({ data });
 });
 
-// my solution
-// app.get("/", (c) => {
-//   return c.json({ data: "backend/data/weather.json"});
-// });
+app.get("/:place", async (c) => {
+  const reqPlace = c.req.param("place");
+
+  const data = await getWeatherData();
+const existing = data.find => entry?.place?.toLowerCase() === reqPlace.toLowerCase()
+return c.json({ data: existing, param: reqPlace });
+});
+
+app.post("/", async (c) => {
+  const body = await c.req.json<Weather>();
+  if (!body.place) return c.json({ error: "Missing place" }, 400);
+  const data = await getWeatherData();
+  const hasPlace = data.some(
+    (entry) => entry.place.toLowerCase() === body.place.toLowerCase
+  );
+  if (hasPlace) return c.json({ erro: "Place already exit" }, 409);
+  data.push(body);
+  await updateWeatherData(data);
+  return c.json({ data }, 201);
+});
 
 const port = 3999;
 
